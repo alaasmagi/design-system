@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { ACCENTS, accentSwatch, applyAccent } from "./accents";
+import type { Accent } from "./accents";
 import {
   Badge,
   Button,
@@ -54,6 +56,58 @@ function Section({ id, title, subtitle, children }: { id: string; title: string;
   );
 }
 
+/* ---- Accent picker: swatch row that re-themes the whole system ---- */
+function AccentPicker({ value, onChange }: { value: Accent; onChange: (a: Accent) => void }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-2)" }}>
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--text-2xs)",
+            letterSpacing: "var(--tracking-wide)",
+            textTransform: "uppercase",
+            color: "var(--text-secondary)",
+          }}
+        >
+          Accent
+        </span>
+        <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--weight-semibold)", color: "var(--text-primary)" }}>
+          {value.name}
+        </span>
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
+        {ACCENTS.map((a) => {
+          const active = a.id === value.id;
+          return (
+            <button
+              key={a.id}
+              type="button"
+              onClick={() => onChange(a)}
+              title={a.name}
+              aria-label={`Accent: ${a.name}`}
+              aria-pressed={active}
+              style={{
+                width: 28,
+                height: 28,
+                padding: 0,
+                cursor: "pointer",
+                borderRadius: "var(--radius-full)",
+                background: accentSwatch(a),
+                border: active ? "2px solid var(--text-primary)" : "2px solid var(--border-subtle)",
+                boxShadow: active ? "0 0 0 2px var(--surface-app)" : "none",
+                outline: "none",
+                transition: "transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard)",
+                transform: active ? "scale(1.08)" : "scale(1)",
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Demo({ label, children, style }: { label: string; children: ReactNode; style?: CSSProperties }) {
   return (
     <Card style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", ...style }}>
@@ -79,9 +133,25 @@ function App() {
     return "dark";
   });
 
+  const [accent, setAccent] = useState<Accent>(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem("ds-accent");
+      const match = ACCENTS.find((a) => a.id === saved);
+      if (match) return match;
+    }
+    return ACCENTS[0];
+  });
+
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  // Re-generate the accent ramp whenever the accent OR the theme changes,
+  // since the two ramps (dark/light) use different lightness/chroma values.
+  useEffect(() => {
+    applyAccent(accent, theme);
+    window.localStorage.setItem("ds-accent", accent.id);
+  }, [accent, theme]);
 
   // Interactive demo state
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -145,9 +215,13 @@ function App() {
           A dark-mode-first, minimal component set.
         </h1>
         <p style={{ margin: 0, fontSize: "var(--text-md)", color: "var(--text-secondary)", lineHeight: "var(--leading-relaxed)" }}>
-          16 React primitives styled entirely with design tokens — one accent hue, a cool neutral ramp,
-          strict 4px spacing. Fully themeable: toggle light and dark in the top-right.
+          16 React primitives styled entirely with design tokens — a single accent hue, a cool neutral ramp,
+          strict 4px spacing. Fully themeable: toggle light and dark in the top-right, and pick an accent below
+          to re-theme every component live.
         </p>
+        <div style={{ marginTop: "var(--space-3)" }}>
+          <AccentPicker value={accent} onChange={setAccent} />
+        </div>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-20)" }}>
