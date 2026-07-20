@@ -21,16 +21,40 @@ export interface Accent {
   chroma?: number;
 }
 
-/* The default cyan is first so it reads as the system's baseline. */
+/* A full trip around the hue wheel. The default cyan is first so it
+   reads as the system's baseline; the rest walk the spectrum. Warm and
+   yellow-green hues (~70–130) can't hold as much chroma in sRGB, so they
+   carry a `chroma` multiplier to keep the clamp clean instead of muddy. */
 export const ACCENTS: Accent[] = [
+  // — Blues & the default —
   { id: "cyan", name: "Cyan", hue: 229 },
+  { id: "sky", name: "Sky", hue: 215 },
+  { id: "azure", name: "Azure", hue: 245 },
+  { id: "sapphire", name: "Sapphire", hue: 258 },
   { id: "indigo", name: "Indigo", hue: 272 },
+  { id: "blurple", name: "Blurple", hue: 285 },
+  // — Purples & pinks —
   { id: "violet", name: "Violet", hue: 300 },
-  { id: "magenta", name: "Magenta", hue: 338 },
-  { id: "rose", name: "Rose", hue: 16 },
-  { id: "amber", name: "Amber", hue: 70, chroma: 0.92 },
+  { id: "amethyst", name: "Amethyst", hue: 312 },
+  { id: "orchid", name: "Orchid", hue: 322 },
+  { id: "magenta", name: "Magenta", hue: 334 },
+  { id: "fuchsia", name: "Fuchsia", hue: 348 },
+  { id: "rose", name: "Rose", hue: 6 },
+  // — Reds & oranges —
+  { id: "crimson", name: "Crimson", hue: 18 },
+  { id: "scarlet", name: "Scarlet", hue: 30 },
+  { id: "coral", name: "Coral", hue: 42, chroma: 0.96 },
+  { id: "tangerine", name: "Tangerine", hue: 58, chroma: 0.9 },
+  { id: "amber", name: "Amber", hue: 72, chroma: 0.82 },
+  // — Yellows & greens —
+  { id: "gold", name: "Gold", hue: 90, chroma: 0.7 },
+  { id: "citron", name: "Citron", hue: 108, chroma: 0.66 },
+  { id: "lime", name: "Lime", hue: 124, chroma: 0.72 },
+  { id: "fern", name: "Fern", hue: 142, chroma: 0.9 },
   { id: "emerald", name: "Emerald", hue: 156 },
-  { id: "teal", name: "Teal", hue: 195 },
+  { id: "jade", name: "Jade", hue: 168 },
+  { id: "spring", name: "Spring", hue: 178 },
+  { id: "teal", name: "Teal", hue: 192 },
 ];
 
 /* [lightness %, chroma] pairs lifted verbatim from tokens/colors.css
