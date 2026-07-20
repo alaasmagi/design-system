@@ -1,0 +1,22 @@
+/* ============================================================
+   ALAASMAGI — DESIGN SYSTEM ROOT STYLESHEET
+   Link this one file to use the system. It pulls in all design
+   tokens (fonts, colors, typography, spacing/radius/motion) and
+   defines the only global CSS the components rely on:
+   the spinner keyframe used by <Icon name="spinner" />.
+
+   Everything else is inline-styled on the components themselves
+   via CSS custom properties, so there is no external dependency.
+   ============================================================ */
+
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+
+/* Consumed by <Icon name="spinner" /> and <Button loading /> */
+@keyframes ds-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
