@@ -1,0 +1,38 @@
+/* GENERATED from Figma (alaasmagi-design-system) — do not edit by hand.
+   Regenerate with scripts/gen-tokens.py after changing Figma variables. */
+
+:root {
+  --border-thin: 1px;
+  --border-thick: 2px;
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  --space-0: 0px;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --motion-duration-fast: 120ms;
+  --motion-duration-normal: 180ms;
+  --motion-duration-slow: 280ms;
+  --motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --shadow-sm: 0px 1px 2px 0px rgb(8 10 15 / 0.06), 0px 1px 3px 0px rgb(8 10 15 / 0.08);
+  --shadow-md: 0px 2px 4px -1px rgb(8 10 15 / 0.06), 0px 6px 16px -4px rgb(8 10 15 / 0.12);
+  --shadow-lg: 0px 4px 8px -2px rgb(8 10 15 / 0.06), 0px 16px 40px -8px rgb(8 10 15 / 0.18);
+}

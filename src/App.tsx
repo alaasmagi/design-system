@@ -1,402 +1,284 @@
-import { useEffect, useState } from "react";
-import type { CSSProperties, ReactNode } from "react";
-import { ACCENTS, accentSwatch, applyAccent } from "./accents";
-import type { Accent } from "./accents";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import {
-  Badge,
-  Button,
-  Card,
-  Checkbox,
-  Dialog,
-  Icon,
-  Input,
-  QRCode,
-  QRScanner,
-  Radio,
-  Select,
-  Switch,
-  Tabs,
-  Tag,
-  Toast,
-  Tooltip,
+  ACCENTS, Alert, Badge, Button, Card, Checkbox, CodeChip, Dialog, Divider, DropdownMenu, Icon, ICON_NAMES, IconButton,
+  InfoRow, Input, MenuItem, NavItem, QRCode, QRScanner, Radio, SegmentedControl, Select, StepLabel, Switch, Tabs, Tag,
+  Textarea, Toast, Tooltip, useTheme,
 } from "./design-system";
+import type { Tone } from "./design-system";
+import qrSvg from "./qr-sample.svg";
 
-type Theme = "dark" | "light";
-
-/* ---- Showcase layout helpers (also token-driven, so they re-theme too) ---- */
-
-function Section({ id, title, subtitle, children }: { id: string; title: string; subtitle: string; children: ReactNode }) {
+function Section({ id, title, lead, children }: { id: string; title: string; lead: string; children: ReactNode }) {
   return (
-    <section id={id} style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-        <h2
-          style={{
-            margin: 0,
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--text-xl)",
-            fontWeight: "var(--weight-bold)",
-            letterSpacing: "var(--tracking-tight)",
-            color: "var(--text-primary)",
-          }}
-        >
-          {title}
-        </h2>
-        <p style={{ margin: 0, fontSize: "var(--text-sm)", color: "var(--text-secondary)" }}>{subtitle}</p>
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gap: "var(--space-4)",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-        }}
-      >
-        {children}
-      </div>
+    <section id={id} className="section" aria-labelledby={`${id}-h`}>
+      <header className="section-head">
+        <h2 id={`${id}-h`} className="ds-h2">{title}</h2>
+        <p>{lead}</p>
+      </header>
+      {children}
     </section>
   );
 }
-
-/* ---- Accent picker: swatch row that re-themes the whole system ---- */
-function AccentPicker({ value, onChange }: { value: Accent; onChange: (a: Accent) => void }) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-2)" }}>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--text-2xs)",
-            letterSpacing: "var(--tracking-wide)",
-            textTransform: "uppercase",
-            color: "var(--text-secondary)",
-          }}
-        >
-          Accent
-        </span>
-        <span style={{ fontSize: "var(--text-xs)", fontWeight: "var(--weight-semibold)", color: "var(--text-primary)" }}>
-          {value.name}
-        </span>
-      </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-2)" }}>
-        {ACCENTS.map((a) => {
-          const active = a.id === value.id;
-          return (
-            <button
-              key={a.id}
-              type="button"
-              onClick={() => onChange(a)}
-              title={a.name}
-              aria-label={`Accent: ${a.name}`}
-              aria-pressed={active}
-              style={{
-                width: 28,
-                height: 28,
-                padding: 0,
-                cursor: "pointer",
-                borderRadius: "var(--radius-full)",
-                background: accentSwatch(a),
-                border: active ? "2px solid var(--text-primary)" : "2px solid var(--border-subtle)",
-                boxShadow: active ? "0 0 0 2px var(--surface-app)" : "none",
-                outline: "none",
-                transition: "transform var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard)",
-                transform: active ? "scale(1.08)" : "scale(1)",
-              }}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
+function Demo({ title, children }: { title: string; children: ReactNode }) {
+  return <div className="demo"><p className="demo-title">{title}</p>{children}</div>;
 }
 
-function Demo({ label, children, style }: { label: string; children: ReactNode; style?: CSSProperties }) {
-  return (
-    <Card style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", ...style }}>
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--text-2xs)",
-          letterSpacing: "var(--tracking-wide)",
-          textTransform: "uppercase",
-          color: "var(--text-secondary)",
-        }}
-      >
-        {label}
-      </span>
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "var(--space-3)" }}>{children}</div>
-    </Card>
-  );
-}
+const COLOR_TOKENS = ["bg-canvas", "bg-surface", "bg-raised", "bg-sunken", "border-default", "border-strong", "text-primary", "text-secondary", "text-muted", "accent-solid", "accent-subtle", "accent-text", "status-success-solid", "status-warning-solid", "status-danger-solid", "status-info-solid"];
+const TYPE = [["ds-display", "Display"], ["ds-h1", "H1"], ["ds-h2", "H2"], ["ds-h3", "H3"], ["ds-body-lg", "Body / Large"], ["ds-body", "Body / Default"], ["ds-body-sm", "Body / Small"], ["ds-label", "Label / Default"], ["ds-label-sm", "Label / Small"], ["ds-caption", "Caption"], ["ds-mono", "Mono / Default"]];
+const SPACES = ["1", "2", "3", "4", "5", "6", "8", "10", "12", "16"];
+const RADII = ["xs", "sm", "md", "lg", "xl", "full"];
+const CLIENTS = [
+  { value: "food-app", label: "food-app — Food App" },
+  { value: "identity-hub", label: "identity-hub — Identity Hub" },
+  { value: "invoice-service", label: "invoice-service — Invoice Service" },
+  { value: "educode", label: "educode — EduCode" },
+];
 
-function App() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
-    return "dark";
-  });
-
-  const [accent, setAccent] = useState<Accent>(() => {
-    if (typeof window !== "undefined") {
-      const saved = window.localStorage.getItem("ds-accent");
-      const match = ACCENTS.find((a) => a.id === saved);
-      if (match) return match;
-    }
-    return ACCENTS[0];
-  });
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  // Re-generate the accent ramp whenever the accent OR the theme changes,
-  // since the two ramps (dark/light) use different lightness/chroma values.
-  useEffect(() => {
-    applyAccent(accent, theme);
-    window.localStorage.setItem("ds-accent", accent.id);
-  }, [accent, theme]);
-
-  // Interactive demo state
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [tags, setTags] = useState(["design", "systems", "tokens", "react"]);
-  const [radio, setRadio] = useState("weekly");
-  const [selectVal, setSelectVal] = useState<string>();
+export default function App() {
+  const { theme, setTheme, accent, setAccent } = useTheme();
+  const [mode, setMode] = useState("offline");
+  const [tab, setTab] = useState("overview");
+  const [filters, setFilters] = useState(["Aktiivne"]);
+  const [dialog, setDialog] = useState<null | "default" | "danger">(null);
+  const [toasts, setToasts] = useState<{ id: number; tone: Tone; title: string }[]>([]);
+  const toast = (tone: Tone, title: string) => {
+    const id = Date.now();
+    setToasts((t) => [...t, { id, tone, title }]);
+    window.setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 4000);
+  };
+  const toggleFilter = (f: string) => setFilters((s) => (s.includes(f) ? s.filter((x) => x !== f) : [...s, f]));
 
   return (
-    <div style={{ maxWidth: "1120px", margin: "0 auto", padding: "0 var(--space-6) var(--space-24)" }}>
-      {/* ---- Header ---- */}
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 40,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "var(--space-4)",
-          padding: "var(--space-5) 0",
-          marginBottom: "var(--space-8)",
-          background: "color-mix(in oklab, var(--surface-app) 88%, transparent)",
-          backdropFilter: "blur(8px)",
-          borderBottom: "1px solid var(--border-subtle)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-3)" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "var(--text-lg)",
-              fontWeight: "var(--weight-extrabold)",
-              letterSpacing: "var(--tracking-tight)",
-              color: "var(--text-primary)",
-            }}
-          >
-            alaasmagi
-          </span>
-          <Badge tone="accent">Design System</Badge>
+    <main className="page">
+      <div className="topbar">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">a</span>
+          <span className="ds-h3">alaasmagi design system</span>
         </div>
-        <Switch
-          label={theme === "light" ? "Light" : "Dark"}
-          checked={theme === "light"}
-          onChange={(on) => setTheme(on ? "light" : "dark")}
-        />
-      </header>
+        <div className="controls">
+          <Switch label="Tume teema" checked={theme === "dark"} onChange={(e) => setTheme(e.target.checked ? "dark" : "light")} />
+        </div>
+      </div>
 
-      {/* ---- Intro ---- */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", marginBottom: "var(--space-16)", maxWidth: "620px" }}>
-        <h1
-          style={{
-            margin: 0,
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--text-4xl)",
-            fontWeight: "var(--weight-extrabold)",
-            letterSpacing: "var(--tracking-tight)",
-            lineHeight: "var(--leading-tight)",
-            color: "var(--text-primary)",
-          }}
-        >
-          A dark-mode-first, minimal component set.
-        </h1>
-        <p style={{ margin: 0, fontSize: "var(--text-md)", color: "var(--text-secondary)", lineHeight: "var(--leading-relaxed)" }}>
-          16 React primitives styled entirely with design tokens — a single accent hue, a cool neutral ramp,
-          strict 4px spacing. Fully themeable: toggle light and dark in the top-right, and pick an accent below
-          to re-theme every component live.
+      <div className="intro">
+        <h1 className="ds-display">Üks süsteem kõigile minu rakendustele</h1>
+        <p className="ds-body-lg">
+          EduCode, Email Hub ja Invoice Service kasutavad samu tokeneid ja komponente. Väärtused on genereeritud Figma
+          muutujatest: Figmas muudetud token jõuab koodi ühe käsuga.
         </p>
-        <div style={{ marginTop: "var(--space-3)" }}>
-          <AccentPicker value={accent} onChange={setAccent} />
+        <div className="swatches" role="group" aria-label="Accent-toon">
+          {ACCENTS.map((a) => (
+            <button key={a.id} type="button" className="swatch" title={a.name} aria-label={a.name} aria-pressed={accent === a.id}
+              style={{ background: a.swatch }} onClick={() => setAccent(a.id)} />
+          ))}
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-20)" }}>
-        {/* ================= FORMS ================= */}
-        <Section id="forms" title="Forms" subtitle="Inputs, controls, and actions.">
-          <Demo label="Button — variants">
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="danger" icon="bin">Delete</Button>
-          </Demo>
-          <Demo label="Button — sizes & states">
-            <Button size="sm">Small</Button>
-            <Button size="md" icon="arrow-right" iconPosition="right">Medium</Button>
-            <Button size="lg" loading>Loading</Button>
-            <Button disabled>Disabled</Button>
-          </Demo>
-          <Demo label="Input">
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", width: "100%" }}>
-              <Input label="Email" icon="mail" placeholder="you@example.com" hint="We never share it." />
-              <Input label="Password" icon="lock" type="password" error="Password is too short." defaultValue="123" />
+      <Section id="foundations" title="Foundations" lead="Semantilised värvitokenid muutuvad koos teemaga; primitiivid jäävad samaks.">
+        <div className="tokens">
+          {COLOR_TOKENS.map((t) => (
+            <div key={t} className="token">
+              <span className="token-chip" style={{ background: `var(--color-${t})` }} />
+              <span className="token-name">--color-{t}</span>
             </div>
-          </Demo>
-          <Demo label="Select">
-            <Select
-              label="Frequency"
-              placeholder="Choose one…"
-              value={selectVal}
-              onChange={setSelectVal}
-              options={[
-                { value: "daily", label: "Daily" },
-                { value: "weekly", label: "Weekly" },
-                { value: "monthly", label: "Monthly" },
-              ]}
-            />
-          </Demo>
-          <Demo label="Checkbox & Switch">
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-              <Checkbox label="Send me product updates" defaultChecked />
-              <Checkbox label="Subscribe to newsletter" />
-              <Checkbox label="Disabled option" disabled />
-              <Switch label="Enable notifications" defaultChecked />
-              <Switch label="Disabled" disabled />
+          ))}
+        </div>
+        <div className="stack">
+          {TYPE.map(([cls, name]) => (
+            <div key={cls} className="type-row">
+              <span className="token-name">{name}</span>
+              <span className={cls}>Skänni tahvlil olev QR-kood</span>
             </div>
-          </Demo>
-          <Demo label="Radio group">
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-              {[
-                { v: "daily", l: "Daily digest" },
-                { v: "weekly", l: "Weekly summary" },
-                { v: "never", l: "Never" },
-              ].map((o) => (
-                <Radio key={o.v} name="digest" value={o.v} label={o.l} checked={radio === o.v} onChange={setRadio} />
+          ))}
+        </div>
+        <div className="grid">
+          <Demo title="Spacing (4px samm)">
+            <div className="scale">
+              {SPACES.map((s) => (
+                <div key={s} className="scale-item">
+                  <span className="scale-bar" style={{ width: `var(--space-${s})`, height: `var(--space-${s})` }} />
+                  <span className="token-name">{s}</span>
+                </div>
               ))}
             </div>
           </Demo>
-        </Section>
-
-        {/* ============== DATA DISPLAY ============== */}
-        <Section id="data" title="Data display" subtitle="Surfaces, status, and codes.">
-          <Demo label="Badge — tones">
-            <Badge tone="neutral">Neutral</Badge>
-            <Badge tone="accent">Accent</Badge>
-            <Badge tone="success" icon="check">Passed</Badge>
-            <Badge tone="warning" icon="alert-triangle">Review</Badge>
-            <Badge tone="danger" icon="x">Failed</Badge>
-          </Demo>
-          <Demo label="Tag — removable / selected">
-            <Tag selected>Active filter</Tag>
-            {tags.map((t) => (
-              <Tag key={t} onRemove={() => setTags((prev) => prev.filter((x) => x !== t))}>
-                {t}
-              </Tag>
-            ))}
-            {tags.length === 0 && (
-              <Button size="sm" variant="ghost" icon="plus" onClick={() => setTags(["design", "systems", "tokens", "react"])}>
-                Reset tags
-              </Button>
-            )}
-          </Demo>
-          <Demo label="Card — hoverable">
-            <Card hoverable style={{ width: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-                <span style={{ color: "var(--accent-9)", display: "flex" }}>
-                  <Icon name="work" size={20} />
-                </span>
-                <div>
-                  <div style={{ fontWeight: "var(--weight-semibold)", color: "var(--text-primary)" }}>Hover me</div>
-                  <div style={{ fontSize: "var(--text-xs)", color: "var(--text-secondary)" }}>Surface + border brighten.</div>
+          <Demo title="Radius">
+            <div className="scale">
+              {RADII.map((r) => (
+                <div key={r} className="scale-item">
+                  <span className="scale-bar" style={{ width: 48, height: 48, borderRadius: `var(--radius-${r})` }} />
+                  <span className="token-name">{r}</span>
                 </div>
-              </div>
-            </Card>
-          </Demo>
-          <Demo label="QRCode — states">
-            <QRCode size={116} label="DEFAULT" />
-            <QRCode size={116} status="success" label="VERIFIED" />
-            <QRCode size={116} status="error" label="INVALID" />
-          </Demo>
-        </Section>
-
-        {/* ============== NAVIGATION ============== */}
-        <Section id="nav" title="Navigation" subtitle="Moving between views.">
-          <Demo label="Tabs" style={{ gridColumn: "1 / -1" }}>
-            <div style={{ width: "100%" }}>
-              <Tabs
-                defaultValue="overview"
-                tabs={[
-                  { value: "overview", label: "Overview" },
-                  { value: "activity", label: "Activity" },
-                  { value: "settings", label: "Settings" },
-                ]}
-              />
+              ))}
             </div>
           </Demo>
-        </Section>
+        </div>
+      </Section>
 
-        {/* ============== FEEDBACK ============== */}
-        <Section id="feedback" title="Feedback" subtitle="Overlays, alerts, and hints.">
-          <Demo label="Toast — tones">
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)", width: "100%" }}>
-              <Toast tone="info" title="Heads up" description="A new version is available." />
-              <Toast tone="success" title="Saved" description="Your changes are live." />
-              <Toast tone="danger" title="Upload failed" description="Check your connection and retry." />
+      <Section id="actions" title="Nupud" lead="44px kõrgus kõikjal. Üks Primary-nupp vaate kohta.">
+        <div className="grid">
+          <Demo title="Variant">
+            <div className="row">
+              <Button>Jätka</Button>
+              <Button variant="secondary">Tühista</Button>
+              <Button variant="ghost">Tagasi</Button>
+              <Button variant="danger">Kustuta</Button>
             </div>
           </Demo>
-          <Demo label="Tooltip — hover">
-            <Tooltip label="Copied to clipboard" side="top">
-              <Button variant="secondary" icon="code">Top</Button>
-            </Tooltip>
-            <Tooltip label="Runs the build" side="bottom">
-              <Button variant="secondary">Bottom</Button>
-            </Tooltip>
-            <Tooltip label="Aligns right" side="right">
-              <Button variant="secondary" icon="info" />
-            </Tooltip>
+          <Demo title="Ikooniga ja keelatud">
+            <div className="row">
+              <Button icon="plus">Lisa ainetund</Button>
+              <Button variant="secondary" icon="upload">Impordi PDF</Button>
+              <Button disabled>Jätka</Button>
+            </div>
           </Demo>
-          <Demo label="Dialog — modal">
-            <Button onClick={() => setDialogOpen(true)}>Open dialog</Button>
+          <Demo title="Ikoon-nupp + Tooltip">
+            <div className="row">
+              <Tooltip label="Muuda klienti"><IconButton icon="pencil" label="Muuda klienti" /></Tooltip>
+              <Tooltip label="Kustuta klient"><IconButton icon="trash" label="Kustuta klient" /></Tooltip>
+              <IconButton icon="settings" label="Seaded" variant="secondary" />
+            </div>
           </Demo>
-          <Demo label="QRScanner — states">
-            <QRScanner size={120} message="Scanning…" />
-            <QRScanner size={120} status="success" message="Verified" />
-            <QRScanner size={120} status="error" message="No match" />
-          </Demo>
-        </Section>
-      </div>
+        </div>
+      </Section>
 
-      {/* Modal lives in a full-viewport positioned layer so the overlay covers the page */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 200, pointerEvents: dialogOpen ? "auto" : "none" }}>
-        <Dialog
-          open={dialogOpen}
-          onClose={() => setDialogOpen(false)}
-          title="Delete project?"
-          footer={
-            <>
-              <Button variant="ghost" onClick={() => setDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={() => setDialogOpen(false)}>
-                Delete
-              </Button>
-            </>
-          }
-        >
-          This can't be undone. All associated files and history will be removed permanently.
-        </Dialog>
-      </div>
+      <Section id="forms" title="Vormid" lead="Väli, valik ja tekstiala jagavad sama raami, olekuid ja abiteksti.">
+        <div className="grid">
+          <div className="stack">
+            <Input label="Üliõpilaskood" icon="user" placeholder="nt 253134IAPM" />
+            <Input label="Parool" icon="lock" type="password" defaultValue="salasõna" helper="Vähemalt 8 märki" />
+            <Input label="Ainetunni ID" icon="key" defaultValue="00001" error="Ainetunni ID on 6-kohaline number" />
+            <Input label="Kood" icon="pin-code" disabled placeholder="Keelatud" />
+          </div>
+          <div className="stack">
+            <Select label="Klient" options={CLIENTS} defaultValue="identity-hub" />
+            <Select label="Keel" options={[{ value: "et", label: "Eesti" }, { value: "en", label: "English" }]} placeholder="Vali keel" />
+            <Textarea label="Mall (Razor)" defaultValue={"<p>Tere, @Model.Name!</p>\n<p>Sinu kood on @Model.Code.</p>"} />
+          </div>
+          <div className="stack">
+            <Demo title="Checkbox">
+              <Checkbox label="Lisa töökoht" defaultChecked />
+              <Checkbox label="Jäta mind meelde" />
+            </Demo>
+            <Demo title="Radio">
+              <Radio name="role" label="Üliõpilane" defaultChecked />
+              <Radio name="role" label="Õppejõud" />
+            </Demo>
+            <Demo title="Switch">
+              <Switch label="Teavitused" defaultChecked />
+            </Demo>
+          </div>
+        </div>
+      </Section>
 
-      <footer style={{ marginTop: "var(--space-20)", paddingTop: "var(--space-6)", borderTop: "1px solid var(--border-subtle)" }}>
-        <span style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-2xs)", color: "var(--text-secondary)" }}>
-          alaasmagi design system — 16 components · light + dark · token-driven
-        </span>
-      </footer>
-    </div>
+      <Section id="navigation" title="Navigatsioon" lead="Lehtede vahel NavItem, sama lehe sees Tabs, kahe režiimi vahel SegmentedControl.">
+        <div className="grid">
+          <Demo title="NavItem">
+            <nav className="sidebar-demo" aria-label="Näidis">
+              <NavItem icon="home" href="#navigation">Avaleht</NavItem>
+              <NavItem icon="book" href="#navigation" active>Ainetunnid</NavItem>
+              <NavItem icon="chart" href="#navigation">Statistika</NavItem>
+            </nav>
+          </Demo>
+          <div className="stack">
+            <Demo title="SegmentedControl">
+              <SegmentedControl label="Režiim" value={mode} onChange={setMode} options={[{ value: "offline", label: "Offline" }, { value: "online", label: "Online" }]} />
+            </Demo>
+            <Demo title="Tabs">
+              <Tabs label="Ainetunni vaated" value={tab} onChange={setTab} tabs={[{ value: "overview", label: "Ülevaade" }, { value: "history", label: "Ajalugu" }, { value: "settings", label: "Seaded" }]} />
+            </Demo>
+            <Demo title="StepLabel">
+              <StepLabel step={1}>Skänni tahvlil olev QR-kood</StepLabel>
+            </Demo>
+          </div>
+        </div>
+      </Section>
+
+      <Section id="feedback" title="Tagasiside" lead="Alert lehe tasemel, Toast pärast tegevust, Dialog kinnituseks.">
+        <div className="grid">
+          <div className="stack">
+            <Alert tone="success">Kohalolek registreeritud.</Alert>
+            <Alert tone="danger" title="Saatmine ebaõnnestus">Saaja aadress lükati serveri poolt tagasi.</Alert>
+            <Alert tone="warning">Arenduskeskkonda ei tohi avalikus rakenduses sisse lülitada.</Alert>
+            <Alert tone="info">Uus versioon on saadaval.</Alert>
+          </div>
+          <div className="stack">
+            <Toast tone="success" title="Salvestatud" description="Klient „food-app” uuendati." onClose={() => undefined} />
+            <div className="row">
+              <Button variant="secondary" onClick={() => toast("success", "Salvestatud")}>Näita toasti</Button>
+              <Button variant="secondary" onClick={() => setDialog("default")}>Ava dialoog</Button>
+              <Button variant="danger" onClick={() => setDialog("danger")}>Kustuta klient</Button>
+            </div>
+          </div>
+          <Demo title="Dropdown menu">
+            <DropdownMenu>
+              <MenuItem>food-app — Food App</MenuItem>
+              <MenuItem selected>identity-hub — Identity Hub</MenuItem>
+              <MenuItem>educode — EduCode</MenuItem>
+            </DropdownMenu>
+          </Demo>
+        </div>
+      </Section>
+
+      <Section id="display" title="Andmed" lead="Staatused, filtrid, tehnilised väärtused ja kokkuvõtted.">
+        <div className="grid">
+          <Demo title="Badge">
+            <div className="row">
+              <Badge>Inactive</Badge><Badge tone="accent">Draft</Badge><Badge tone="success">Sent</Badge><Badge tone="warning">Pending</Badge><Badge tone="danger">Failed</Badge>
+            </div>
+          </Demo>
+          <Demo title="Tag">
+            <div className="row">
+              {["Aktiivne", "Lõppenud", "Tulemas"].map((f) => <Tag key={f} selected={filters.includes(f)} onClick={() => toggleFilter(f)}>{f}</Tag>)}
+              <Tag onRemove={() => undefined}>identity-hub</Tag>
+            </div>
+          </Demo>
+          <Demo title="CodeChip ja InfoRow">
+            <dl className="stack" style={{ margin: 0, gap: "var(--space-2)" }}>
+              <InfoRow label="Teenus" value={<CodeChip>identity-hub</CodeChip>} />
+              <InfoRow label="Ainetund" value="Tarkvaraarenduse alused · 13.10 10:00" />
+            </dl>
+          </Demo>
+          <Card title="Kaart" description="Pinnakonteiner. Klikitav variant saab hover-oleku." />
+          <Card interactive title="Ava ainetunnid" description="Klikitav kaart">
+            <Icon name="arrow-right" size={20} />
+          </Card>
+          <Demo title="Divider">
+            <Divider />
+            <Divider label="Või sisesta ID käsitsi" />
+          </Demo>
+        </div>
+      </Section>
+
+      <Section id="qr" title="QR" lead="Kood on alati must valgel. Skänneri kaamerapilt on alati tume.">
+        <div className="row" style={{ gap: "var(--space-10)", alignItems: "flex-start" }}>
+          <QRCode src={qrSvg} size={180} label="Näita QR-koodi õppejõule" />
+          <QRCode src={qrSvg} size={180} status="success" label="Registreeritud" />
+          <QRScanner size={240} message="Suuna kaamera QR-koodile" />
+          <QRScanner size={240} status="success" message="Kohalolek registreeritud" />
+        </div>
+      </Section>
+
+      <Section id="icons" title="Ikoonid" lead={`${ICON_NAMES.length} ikooni, 24px ruudustik, 2px joon.`}>
+        <div className="tokens">
+          {ICON_NAMES.map((n) => (
+            <div key={n} className="token"><Icon name={n} size={24} /><span className="token-name">{n}</span></div>
+          ))}
+        </div>
+      </Section>
+
+      <p className="footer">Sünkroonis Figma failiga „alaasmagi-design-system”. Tokenid: <CodeChip>scripts/gen-tokens.py</CodeChip></p>
+
+      <Dialog open={dialog !== null} onClose={() => setDialog(null)} type={dialog === "danger" ? "danger" : "default"}
+        title={dialog === "danger" ? "Kustutada see klient?" : "Muuda ainetundi"}
+        confirmLabel={dialog === "danger" ? "Kustuta klient" : "Salvesta"}
+        onConfirm={() => { toast(dialog === "danger" ? "danger" : "success", dialog === "danger" ? "Klient kustutatud" : "Salvestatud"); setDialog(null); }}>
+        {dialog === "danger" ? "Saatjad tuleb enne kustutada. Seda tegevust ei saa tagasi võtta." : "Ainetunni andmete muutmine jõuab kohe üliõpilasteni."}
+      </Dialog>
+
+      <div className="toast-stack" aria-live="polite">
+        {toasts.map((t) => <Toast key={t.id} tone={t.tone} title={t.title} onClose={() => setToasts((s) => s.filter((x) => x.id !== t.id))} />)}
+      </div>
+    </main>
   );
 }
-
-export default App;

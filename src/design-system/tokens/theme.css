@@ -1,0 +1,140 @@
+/* GENERATED from Figma (alaasmagi-design-system) — do not edit by hand.
+   Regenerate with scripts/gen-tokens.py after changing Figma variables. */
+
+
+/* Light is the default; dark applies with data-theme="dark" or, when no data-theme is set, the OS preference. */
+
+:root, [data-theme="light"] {
+  --color-bg-canvas: var(--neutral-50);
+  --color-bg-surface: var(--neutral-0);
+  --color-bg-raised: var(--neutral-0);
+  --color-bg-sunken: var(--neutral-100);
+  --color-bg-hover: var(--alpha-black-4);
+  --color-bg-pressed: var(--alpha-black-8);
+  --color-bg-inverse: var(--neutral-900);
+  --color-border-subtle: var(--neutral-100);
+  --color-border-default: var(--neutral-200);
+  --color-border-strong: var(--neutral-300);
+  --color-text-primary: var(--neutral-950);
+  --color-text-secondary: var(--neutral-600);
+  --color-text-muted: var(--neutral-500);
+  --color-text-disabled: var(--neutral-400);
+  --color-text-inverse: var(--neutral-0);
+  --color-text-on-accent: var(--neutral-0);
+  --color-accent-solid: var(--accent-600);
+  --color-accent-solid-hover: var(--accent-700);
+  --color-accent-subtle: var(--accent-50);
+  --color-accent-subtle-hover: var(--accent-100);
+  --color-accent-text: var(--accent-700);
+  --color-accent-border: var(--accent-300);
+  --color-focus-ring: var(--accent-500);
+  --color-overlay-scrim: var(--alpha-black-48);
+  --color-status-success-solid: var(--success-600);
+  --color-status-success-subtle: var(--success-50);
+  --color-status-success-text: var(--success-700);
+  --color-status-success-border: var(--success-200);
+  --color-status-warning-solid: var(--warning-600);
+  --color-status-warning-subtle: var(--warning-50);
+  --color-status-warning-text: var(--warning-700);
+  --color-status-warning-border: var(--warning-200);
+  --color-status-danger-solid: var(--danger-600);
+  --color-status-danger-subtle: var(--danger-50);
+  --color-status-danger-text: var(--danger-700);
+  --color-status-danger-border: var(--danger-200);
+  --color-status-info-solid: var(--info-600);
+  --color-status-info-subtle: var(--info-50);
+  --color-status-info-text: var(--info-700);
+  --color-status-info-border: var(--info-200);
+}
+
+[data-theme="dark"] {
+  --color-bg-canvas: var(--neutral-950);
+  --color-bg-surface: var(--neutral-900);
+  --color-bg-raised: var(--neutral-850);
+  --color-bg-sunken: var(--neutral-1000);
+  --color-bg-hover: var(--alpha-white-6);
+  --color-bg-pressed: var(--alpha-white-10);
+  --color-bg-inverse: var(--neutral-50);
+  --color-border-subtle: var(--neutral-850);
+  --color-border-default: var(--neutral-800);
+  --color-border-strong: var(--neutral-700);
+  --color-text-primary: var(--neutral-50);
+  --color-text-secondary: var(--neutral-300);
+  --color-text-muted: var(--neutral-400);
+  --color-text-disabled: var(--neutral-600);
+  --color-text-inverse: var(--neutral-950);
+  --color-text-on-accent: var(--neutral-950);
+  --color-accent-solid: var(--accent-400);
+  --color-accent-solid-hover: var(--accent-300);
+  --color-accent-subtle: var(--accent-950);
+  --color-accent-subtle-hover: var(--accent-900);
+  --color-accent-text: var(--accent-300);
+  --color-accent-border: var(--accent-700);
+  --color-focus-ring: var(--accent-400);
+  --color-overlay-scrim: var(--alpha-black-64);
+  --color-status-success-solid: var(--success-400);
+  --color-status-success-subtle: var(--success-950);
+  --color-status-success-text: var(--success-300);
+  --color-status-success-border: var(--success-800);
+  --color-status-warning-solid: var(--warning-400);
+  --color-status-warning-subtle: var(--warning-950);
+  --color-status-warning-text: var(--warning-300);
+  --color-status-warning-border: var(--warning-800);
+  --color-status-danger-solid: var(--danger-400);
+  --color-status-danger-subtle: var(--danger-950);
+  --color-status-danger-text: var(--danger-300);
+  --color-status-danger-border: var(--danger-800);
+  --color-status-info-solid: var(--info-400);
+  --color-status-info-subtle: var(--info-950);
+  --color-status-info-text: var(--info-300);
+  --color-status-info-border: var(--info-800);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg-canvas: var(--neutral-950);
+    --color-bg-surface: var(--neutral-900);
+    --color-bg-raised: var(--neutral-850);
+    --color-bg-sunken: var(--neutral-1000);
+    --color-bg-hover: var(--alpha-white-6);
+    --color-bg-pressed: var(--alpha-white-10);
+    --color-bg-inverse: var(--neutral-50);
+    --color-border-subtle: var(--neutral-850);
+    --color-border-default: var(--neutral-800);
+    --color-border-strong: var(--neutral-700);
+    --color-text-primary: var(--neutral-50);
+    --color-text-secondary: var(--neutral-300);
+    --color-text-muted: var(--neutral-400);
+    --color-text-disabled: var(--neutral-600);
+    --color-text-inverse: var(--neutral-950);
+    --color-text-on-accent: var(--neutral-950);
+    --color-accent-solid: var(--accent-400);
+    --color-accent-solid-hover: var(--accent-300);
+    --color-accent-subtle: var(--accent-950);
+    --color-accent-subtle-hover: var(--accent-900);
+    --color-accent-text: var(--accent-300);
+    --color-accent-border: var(--accent-700);
+    --color-focus-ring: var(--accent-400);
+    --color-overlay-scrim: var(--alpha-black-64);
+    --color-status-success-solid: var(--success-400);
+    --color-status-success-subtle: var(--success-950);
+    --color-status-success-text: var(--success-300);
+    --color-status-success-border: var(--success-800);
+    --color-status-warning-solid: var(--warning-400);
+    --color-status-warning-subtle: var(--warning-950);
+    --color-status-warning-text: var(--warning-300);
+    --color-status-warning-border: var(--warning-800);
+    --color-status-danger-solid: var(--danger-400);
+    --color-status-danger-subtle: var(--danger-950);
+    --color-status-danger-text: var(--danger-300);
+    --color-status-danger-border: var(--danger-800);
+    --color-status-info-solid: var(--info-400);
+    --color-status-info-subtle: var(--info-950);
+    --color-status-info-text: var(--info-300);
+    --color-status-info-border: var(--info-800);
+  }
+}
+
+:root, [data-theme="light"] { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { color-scheme: dark; } }

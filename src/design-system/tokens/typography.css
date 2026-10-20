@@ -1,40 +1,28 @@
-/* ============================================================
-   ALAASMAGI — TYPE TOKENS
-   Figtree for everything — display, headings, and body/UI text.
-   JetBrains Mono for code, data, technical accents.
-   ============================================================ */
+/* GENERATED from Figma (alaasmagi-design-system) — do not edit by hand.
+   Regenerate with scripts/gen-tokens.py after changing Figma variables. */
+
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap");
 
 :root {
-  --font-display: "Figtree", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Figtree", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
-
-  /* Hybrid scale: near-linear at the small/UI end (11-17), ~1.25 ratio toward display */
-  --text-2xs: 11px;
-  --text-xs: 12px;
-  --text-sm: 13px;
-  --text-base: 15px;
-  --text-md: 17px;
-  --text-lg: 20px;
-  --text-xl: 25px;
-  --text-2xl: 31px;
-  --text-3xl: 39px;
-  --text-4xl: 49px;
-  --text-5xl: 61px;
-
-  --leading-tight: 1.1;
-  --leading-snug: 1.3;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.7;
-
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --weight-semibold: 600;
-  --weight-bold: 700;
-  --weight-extrabold: 800;   /* Figtree 800 is loaded in fonts.css; expose it as a token */
-
-  --tracking-tight: -0.02em;
-  --tracking-normal: 0;
-  --tracking-wide: 0.04em;
-  --tracking-widest: 0.12em;
 }
+
+.ds-display { font-family: var(--font-sans); font-weight: 700; font-size: 32px; line-height: 38px; letter-spacing: -0.02em; }
+.ds-h1 { font-family: var(--font-sans); font-weight: 700; font-size: 28px; line-height: 34px; letter-spacing: -0.015em; }
+.ds-h2 { font-family: var(--font-sans); font-weight: 600; font-size: 22px; line-height: 28px; letter-spacing: -0.01em; }
+.ds-h3 { font-family: var(--font-sans); font-weight: 600; font-size: 18px; line-height: 24px; letter-spacing: -0.005em; }
+@media (min-width: 1024px) {
+  .ds-display { font-size: 48px; line-height: 56px; letter-spacing: -0.02em; }
+  .ds-h1 { font-size: 36px; line-height: 44px; letter-spacing: -0.015em; }
+  .ds-h2 { font-size: 28px; line-height: 36px; letter-spacing: -0.01em; }
+  .ds-h3 { font-size: 22px; line-height: 28px; letter-spacing: -0.005em; }
+}
+.ds-body-lg { font-family: var(--font-sans); font-weight: 400; font-size: 18px; line-height: 28px; letter-spacing: 0.0em; }
+.ds-body { font-family: var(--font-sans); font-weight: 400; font-size: 16px; line-height: 24px; letter-spacing: 0.0em; }
+.ds-body-sm { font-family: var(--font-sans); font-weight: 400; font-size: 14px; line-height: 20px; letter-spacing: 0.0em; }
+.ds-label { font-family: var(--font-sans); font-weight: 600; font-size: 14px; line-height: 20px; letter-spacing: 0.0em; }
+.ds-label-sm { font-family: var(--font-sans); font-weight: 500; font-size: 12px; line-height: 16px; letter-spacing: 0.005em; }
+.ds-caption { font-family: var(--font-sans); font-weight: 400; font-size: 12px; line-height: 16px; letter-spacing: 0.0em; }
+.ds-mono { font-family: var(--font-mono); font-weight: 400; font-size: 14px; line-height: 20px; letter-spacing: 0.0em; }
+.ds-mono-sm { font-family: var(--font-mono); font-weight: 400; font-size: 12px; line-height: 16px; letter-spacing: 0.0em; }
