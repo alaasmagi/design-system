@@ -5,7 +5,7 @@ import { cx } from "./cx";
 
 export interface SegmentOption { value: string; label: string }
 
-/** Two-or-three-way switch (Offline/Online, Skänni/Lisa käsitsi). */
+/** Two-or-three-way switch (Offline/Online, Scan/Enter manually). */
 export function SegmentedControl({ options, value, onChange, label, className }: { options: SegmentOption[]; value: string; onChange: (v: string) => void; label: string; className?: string }) {
   const move = (e: KeyboardEvent, i: number) => {
     const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;

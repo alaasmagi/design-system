@@ -38,7 +38,7 @@ export default function App() {
   const { theme, setTheme, accent, setAccent } = useTheme();
   const [mode, setMode] = useState("offline");
   const [tab, setTab] = useState("overview");
-  const [filters, setFilters] = useState(["Aktiivne"]);
+  const [filters, setFilters] = useState(["Active"]);
   const [dialog, setDialog] = useState<null | "default" | "danger">(null);
   const [toasts, setToasts] = useState<{ id: number; tone: Tone; title: string }[]>([]);
   const toast = (tone: Tone, title: string) => {
@@ -56,17 +56,17 @@ export default function App() {
           <span className="ds-h3">alaasmagi design system</span>
         </div>
         <div className="controls">
-          <Switch label="Tume teema" checked={theme === "dark"} onChange={(e) => setTheme(e.target.checked ? "dark" : "light")} />
+          <Switch label="Dark theme" checked={theme === "dark"} onChange={(e) => setTheme(e.target.checked ? "dark" : "light")} />
         </div>
       </div>
 
       <div className="intro">
-        <h1 className="ds-display">Üks süsteem kõigile minu rakendustele</h1>
+        <h1 className="ds-display">One system for all my apps</h1>
         <p className="ds-body-lg">
-          EduCode, Email Hub ja Invoice Service kasutavad samu tokeneid ja komponente. Väärtused on genereeritud Figma
-          muutujatest: Figmas muudetud token jõuab koodi ühe käsuga.
+          EduCode, Email Hub and Invoice Service share the same tokens and components. Values are generated from Figma
+          variables: a token changed in Figma reaches the code with a single command.
         </p>
-        <div className="swatches" role="group" aria-label="Accent-toon">
+        <div className="swatches" role="group" aria-label="Accent colour">
           {ACCENTS.map((a) => (
             <button key={a.id} type="button" className="swatch" title={a.name} aria-label={a.name} aria-pressed={accent === a.id}
               style={{ background: a.swatch }} onClick={() => setAccent(a.id)} />
@@ -74,7 +74,7 @@ export default function App() {
         </div>
       </div>
 
-      <Section id="foundations" title="Foundations" lead="Semantilised värvitokenid muutuvad koos teemaga; primitiivid jäävad samaks.">
+      <Section id="foundations" title="Foundations" lead="Semantic colour tokens change with the theme; primitives stay the same.">
         <div className="tokens">
           {COLOR_TOKENS.map((t) => (
             <div key={t} className="token">
@@ -87,12 +87,12 @@ export default function App() {
           {TYPE.map(([cls, name]) => (
             <div key={cls} className="type-row">
               <span className="token-name">{name}</span>
-              <span className={cls}>Skänni tahvlil olev QR-kood</span>
+              <span className={cls}>Scan the QR code on the board</span>
             </div>
           ))}
         </div>
         <div className="grid">
-          <Demo title="Spacing (4px samm)">
+          <Demo title="Spacing (4px step)">
             <div className="scale">
               {SPACES.map((s) => (
                 <div key={s} className="scale-item">
@@ -115,99 +115,99 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="actions" title="Nupud" lead="44px kõrgus kõikjal. Üks Primary-nupp vaate kohta.">
+      <Section id="actions" title="Buttons" lead="44px tall everywhere. One primary button per view.">
         <div className="grid">
           <Demo title="Variant">
             <div className="row">
-              <Button>Jätka</Button>
-              <Button variant="secondary">Tühista</Button>
-              <Button variant="ghost">Tagasi</Button>
-              <Button variant="danger">Kustuta</Button>
+              <Button>Continue</Button>
+              <Button variant="secondary">Cancel</Button>
+              <Button variant="ghost">Back</Button>
+              <Button variant="danger">Delete</Button>
             </div>
           </Demo>
-          <Demo title="Ikooniga ja keelatud">
+          <Demo title="With icon and disabled">
             <div className="row">
-              <Button icon="plus">Lisa ainetund</Button>
-              <Button variant="secondary" icon="upload">Impordi PDF</Button>
-              <Button disabled>Jätka</Button>
+              <Button icon="plus">Add lesson</Button>
+              <Button variant="secondary" icon="upload">Import PDF</Button>
+              <Button disabled>Continue</Button>
             </div>
           </Demo>
-          <Demo title="Ikoon-nupp + Tooltip">
+          <Demo title="Icon button + Tooltip">
             <div className="row">
-              <Tooltip label="Muuda klienti"><IconButton icon="pencil" label="Muuda klienti" /></Tooltip>
-              <Tooltip label="Kustuta klient"><IconButton icon="trash" label="Kustuta klient" /></Tooltip>
-              <IconButton icon="settings" label="Seaded" variant="secondary" />
+              <Tooltip label="Edit client"><IconButton icon="pencil" label="Edit client" /></Tooltip>
+              <Tooltip label="Delete client"><IconButton icon="trash" label="Delete client" /></Tooltip>
+              <IconButton icon="settings" label="Settings" variant="secondary" />
             </div>
           </Demo>
         </div>
       </Section>
 
-      <Section id="forms" title="Vormid" lead="Väli, valik ja tekstiala jagavad sama raami, olekuid ja abiteksti.">
+      <Section id="forms" title="Forms" lead="Input, select and textarea share the same frame, states and helper text.">
         <div className="grid">
           <div className="stack">
-            <Input label="Üliõpilaskood" icon="user" placeholder="nt 253134IAPM" />
-            <Input label="Parool" icon="lock" type="password" defaultValue="salasõna" helper="Vähemalt 8 märki" />
-            <Input label="Ainetunni ID" icon="key" defaultValue="00001" error="Ainetunni ID on 6-kohaline number" />
-            <Input label="Kood" icon="pin-code" disabled placeholder="Keelatud" />
+            <Input label="Student code" icon="user" placeholder="e.g. 253134IAPM" />
+            <Input label="Password" icon="lock" type="password" defaultValue="password" helper="At least 8 characters" />
+            <Input label="Lesson ID" icon="key" defaultValue="00001" error="Lesson ID is a 6-digit number" />
+            <Input label="Code" icon="pin-code" disabled placeholder="Disabled" />
           </div>
           <div className="stack">
-            <Select label="Klient" options={CLIENTS} defaultValue="identity-hub" />
-            <Select label="Keel" options={[{ value: "et", label: "Eesti" }, { value: "en", label: "English" }]} placeholder="Vali keel" />
-            <Textarea label="Mall (Razor)" defaultValue={"<p>Tere, @Model.Name!</p>\n<p>Sinu kood on @Model.Code.</p>"} />
+            <Select label="Client" options={CLIENTS} defaultValue="identity-hub" />
+            <Select label="Language" options={[{ value: "et", label: "Estonian" }, { value: "en", label: "English" }]} placeholder="Select language" />
+            <Textarea label="Template (Razor)" defaultValue={"<p>Hello, @Model.Name!</p>\n<p>Your code is @Model.Code.</p>"} />
           </div>
           <div className="stack">
             <Demo title="Checkbox">
-              <Checkbox label="Lisa töökoht" defaultChecked />
-              <Checkbox label="Jäta mind meelde" />
+              <Checkbox label="Add workplace" defaultChecked />
+              <Checkbox label="Remember me" />
             </Demo>
             <Demo title="Radio">
-              <Radio name="role" label="Üliõpilane" defaultChecked />
-              <Radio name="role" label="Õppejõud" />
+              <Radio name="role" label="Student" defaultChecked />
+              <Radio name="role" label="Lecturer" />
             </Demo>
             <Demo title="Switch">
-              <Switch label="Teavitused" defaultChecked />
+              <Switch label="Notifications" defaultChecked />
             </Demo>
           </div>
         </div>
       </Section>
 
-      <Section id="navigation" title="Navigatsioon" lead="Lehtede vahel NavItem, sama lehe sees Tabs, kahe režiimi vahel SegmentedControl.">
+      <Section id="navigation" title="Navigation" lead="NavItem between pages, Tabs within a page, SegmentedControl between two modes.">
         <div className="grid">
           <Demo title="NavItem">
-            <nav className="sidebar-demo" aria-label="Näidis">
-              <NavItem icon="home" href="#navigation">Avaleht</NavItem>
-              <NavItem icon="book" href="#navigation" active>Ainetunnid</NavItem>
-              <NavItem icon="chart" href="#navigation">Statistika</NavItem>
+            <nav className="sidebar-demo" aria-label="Example">
+              <NavItem icon="home" href="#navigation">Home</NavItem>
+              <NavItem icon="book" href="#navigation" active>Lessons</NavItem>
+              <NavItem icon="chart" href="#navigation">Statistics</NavItem>
             </nav>
           </Demo>
           <div className="stack">
             <Demo title="SegmentedControl">
-              <SegmentedControl label="Režiim" value={mode} onChange={setMode} options={[{ value: "offline", label: "Offline" }, { value: "online", label: "Online" }]} />
+              <SegmentedControl label="Mode" value={mode} onChange={setMode} options={[{ value: "offline", label: "Offline" }, { value: "online", label: "Online" }]} />
             </Demo>
             <Demo title="Tabs">
-              <Tabs label="Ainetunni vaated" value={tab} onChange={setTab} tabs={[{ value: "overview", label: "Ülevaade" }, { value: "history", label: "Ajalugu" }, { value: "settings", label: "Seaded" }]} />
+              <Tabs label="Lesson views" value={tab} onChange={setTab} tabs={[{ value: "overview", label: "Overview" }, { value: "history", label: "History" }, { value: "settings", label: "Settings" }]} />
             </Demo>
             <Demo title="StepLabel">
-              <StepLabel step={1}>Skänni tahvlil olev QR-kood</StepLabel>
+              <StepLabel step={1}>Scan the QR code on the board</StepLabel>
             </Demo>
           </div>
         </div>
       </Section>
 
-      <Section id="feedback" title="Tagasiside" lead="Alert lehe tasemel, Toast pärast tegevust, Dialog kinnituseks.">
+      <Section id="feedback" title="Feedback" lead="Alert at page level, Toast after an action, Dialog for confirmation.">
         <div className="grid">
           <div className="stack">
-            <Alert tone="success">Kohalolek registreeritud.</Alert>
-            <Alert tone="danger" title="Saatmine ebaõnnestus">Saaja aadress lükati serveri poolt tagasi.</Alert>
-            <Alert tone="warning">Arenduskeskkonda ei tohi avalikus rakenduses sisse lülitada.</Alert>
-            <Alert tone="info">Uus versioon on saadaval.</Alert>
+            <Alert tone="success">Attendance registered.</Alert>
+            <Alert tone="danger" title="Sending failed">The recipient address was rejected by the server.</Alert>
+            <Alert tone="warning">The development environment must not be enabled in a public app.</Alert>
+            <Alert tone="info">A new version is available.</Alert>
           </div>
           <div className="stack">
-            <Toast tone="success" title="Salvestatud" description="Klient „food-app” uuendati." onClose={() => undefined} />
+            <Toast tone="success" title="Saved" description="Client “food-app” was updated." onClose={() => undefined} />
             <div className="row">
-              <Button variant="secondary" onClick={() => toast("success", "Salvestatud")}>Näita toasti</Button>
-              <Button variant="secondary" onClick={() => setDialog("default")}>Ava dialoog</Button>
-              <Button variant="danger" onClick={() => setDialog("danger")}>Kustuta klient</Button>
+              <Button variant="secondary" onClick={() => toast("success", "Saved")}>Show toast</Button>
+              <Button variant="secondary" onClick={() => setDialog("default")}>Open dialog</Button>
+              <Button variant="danger" onClick={() => setDialog("danger")}>Delete client</Button>
             </div>
           </div>
           <Demo title="Dropdown menu">
@@ -220,7 +220,7 @@ export default function App() {
         </div>
       </Section>
 
-      <Section id="display" title="Andmed" lead="Staatused, filtrid, tehnilised väärtused ja kokkuvõtted.">
+      <Section id="display" title="Data display" lead="Statuses, filters, technical values and summaries.">
         <div className="grid">
           <Demo title="Badge">
             <div className="row">
@@ -229,37 +229,37 @@ export default function App() {
           </Demo>
           <Demo title="Tag">
             <div className="row">
-              {["Aktiivne", "Lõppenud", "Tulemas"].map((f) => <Tag key={f} selected={filters.includes(f)} onClick={() => toggleFilter(f)}>{f}</Tag>)}
+              {["Active", "Finished", "Upcoming"].map((f) => <Tag key={f} selected={filters.includes(f)} onClick={() => toggleFilter(f)}>{f}</Tag>)}
               <Tag onRemove={() => undefined}>identity-hub</Tag>
             </div>
           </Demo>
-          <Demo title="CodeChip ja InfoRow">
+          <Demo title="CodeChip and InfoRow">
             <dl className="stack" style={{ margin: 0, gap: "var(--space-2)" }}>
-              <InfoRow label="Teenus" value={<CodeChip>identity-hub</CodeChip>} />
-              <InfoRow label="Ainetund" value="Tarkvaraarenduse alused · 13.10 10:00" />
+              <InfoRow label="Service" value={<CodeChip>identity-hub</CodeChip>} />
+              <InfoRow label="Lesson" value="Software Development Basics · 13.10 10:00" />
             </dl>
           </Demo>
-          <Card title="Kaart" description="Pinnakonteiner. Klikitav variant saab hover-oleku." />
-          <Card interactive title="Ava ainetunnid" description="Klikitav kaart">
+          <Card title="Card" description="Surface container. The clickable variant gets a hover state." />
+          <Card interactive title="Open lessons" description="Clickable card">
             <Icon name="arrow-right" size={20} />
           </Card>
           <Demo title="Divider">
             <Divider />
-            <Divider label="Või sisesta ID käsitsi" />
+            <Divider label="Or enter the ID manually" />
           </Demo>
         </div>
       </Section>
 
-      <Section id="qr" title="QR" lead="Kood on alati must valgel. Skänneri kaamerapilt on alati tume.">
+      <Section id="qr" title="QR" lead="The code is always black on white. The scanner camera view is always dark.">
         <div className="row" style={{ gap: "var(--space-10)", alignItems: "flex-start" }}>
-          <QRCode src={qrSvg} size={180} label="Näita QR-koodi õppejõule" />
-          <QRCode src={qrSvg} size={180} status="success" label="Registreeritud" />
-          <QRScanner size={240} message="Suuna kaamera QR-koodile" />
-          <QRScanner size={240} status="success" message="Kohalolek registreeritud" />
+          <QRCode src={qrSvg} label="Show the QR code to the lecturer" />
+          <QRCode src={qrSvg} status="success" label="Registered" />
+          <QRScanner message="Point the camera at the QR code" />
+          <QRScanner status="success" message="Attendance registered" />
         </div>
       </Section>
 
-      <Section id="icons" title="Ikoonid" lead={`${ICON_NAMES.length} ikooni, 24px ruudustik, 2px joon.`}>
+      <Section id="icons" title="Icons" lead={`${ICON_NAMES.length} icons, 24px grid, 2px stroke.`}>
         <div className="tokens">
           {ICON_NAMES.map((n) => (
             <div key={n} className="token"><Icon name={n} size={24} /><span className="token-name">{n}</span></div>
@@ -267,13 +267,13 @@ export default function App() {
         </div>
       </Section>
 
-      <p className="footer">Sünkroonis Figma failiga „alaasmagi-design-system”. Tokenid: <CodeChip>scripts/gen-tokens.py</CodeChip></p>
+      <p className="footer">Synced with the Figma file “alaasmagi-design-system”.</p>
 
       <Dialog open={dialog !== null} onClose={() => setDialog(null)} type={dialog === "danger" ? "danger" : "default"}
-        title={dialog === "danger" ? "Kustutada see klient?" : "Muuda ainetundi"}
-        confirmLabel={dialog === "danger" ? "Kustuta klient" : "Salvesta"}
-        onConfirm={() => { toast(dialog === "danger" ? "danger" : "success", dialog === "danger" ? "Klient kustutatud" : "Salvestatud"); setDialog(null); }}>
-        {dialog === "danger" ? "Saatjad tuleb enne kustutada. Seda tegevust ei saa tagasi võtta." : "Ainetunni andmete muutmine jõuab kohe üliõpilasteni."}
+        title={dialog === "danger" ? "Delete this client?" : "Edit lesson"}
+        confirmLabel={dialog === "danger" ? "Delete client" : "Save"}
+        onConfirm={() => { toast(dialog === "danger" ? "danger" : "success", dialog === "danger" ? "Client deleted" : "Saved"); setDialog(null); }}>
+        {dialog === "danger" ? "Senders must be deleted first. This action cannot be undone." : "Changes to the lesson reach students immediately."}
       </Dialog>
 
       <div className="toast-stack" aria-live="polite">

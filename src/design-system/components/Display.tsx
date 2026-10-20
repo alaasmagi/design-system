@@ -8,7 +8,7 @@ export function Badge({ tone = "neutral", children, className }: { tone?: "neutr
 }
 
 /** Category or filter chip. Pass onClick to make it a toggle, onRemove to add the × button. */
-export function Tag({ children, selected, onClick, onRemove, removeLabel = "Eemalda" }: { children: ReactNode; selected?: boolean; onClick?: () => void; onRemove?: () => void; removeLabel?: string }) {
+export function Tag({ children, selected, onClick, onRemove, removeLabel = "Remove" }: { children: ReactNode; selected?: boolean; onClick?: () => void; onRemove?: () => void; removeLabel?: string }) {
   const cls = cx("ds-tag", selected && "ds-tag--selected");
   const remove = onRemove && (
     <button type="button" className="ds-tag__remove" aria-label={removeLabel} onClick={(e) => { e.stopPropagation(); onRemove(); }}><Icon name="x" size={14} /></button>

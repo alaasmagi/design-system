@@ -30,7 +30,7 @@ export function Toast({ tone = "success", title, description, onClose, className
         <span className="ds-toast__title">{title}</span>
         {description && <span className="ds-toast__description">{description}</span>}
       </div>
-      {onClose && <button type="button" className="ds-toast__close" aria-label="Sulge" onClick={onClose}><Icon name="x" size={16} /></button>}
+      {onClose && <button type="button" className="ds-toast__close" aria-label="Close" onClick={onClose}><Icon name="x" size={16} /></button>}
     </div>
   );
 }
@@ -63,7 +63,7 @@ export interface DialogProps {
 }
 
 /** Modal dialog over the overlay/scrim token. Esc and backdrop close it. */
-export function Dialog({ open, onClose, title, children, type = "default", confirmLabel = "Salvesta", cancelLabel = "Tühista", onConfirm, footer }: DialogProps) {
+export function Dialog({ open, onClose, title, children, type = "default", confirmLabel = "Save", cancelLabel = "Cancel", onConfirm, footer }: DialogProps) {
   const id = useId();
   const panel = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -80,7 +80,7 @@ export function Dialog({ open, onClose, title, children, type = "default", confi
       <div ref={panel} role="dialog" aria-modal="true" aria-labelledby={id} className="ds-dialog">
         <div className="ds-dialog__header">
           <h2 id={id} className="ds-dialog__title">{title}</h2>
-          <IconButton icon="x" label="Sulge" onClick={onClose} />
+          <IconButton icon="x" label="Close" onClick={onClose} />
         </div>
         {children && <div className="ds-dialog__body">{children}</div>}
         <div className="ds-dialog__footer">

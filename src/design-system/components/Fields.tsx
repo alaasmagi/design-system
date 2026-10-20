@@ -64,7 +64,7 @@ export interface SelectProps extends FieldShell {
 }
 
 /** Select with the Figma Dropdown menu as its listbox. */
-export function Select({ label, helper, error, className, options, value, defaultValue, onChange, placeholder = "Vali…", disabled, name, id }: SelectProps) {
+export function Select({ label, helper, error, className, options, value, defaultValue, onChange, placeholder = "Select…", disabled, name, id }: SelectProps) {
   const autoId = useId(); const fid = id ?? autoId;
   const [internal, setInternal] = useState(defaultValue);
   const current = value ?? internal;
