@@ -61,7 +61,7 @@ export default function App() {
       </div>
 
       <div className="intro">
-        <h1 className="ds-display">One system for all my apps</h1>
+        <h1 className="ds-display">One system for all the apps</h1>
         <p className="ds-body-lg">
           Every app shares the same tokens and components. Values are generated from Figma
           variables: a token changed in Figma reaches the code with a single command.
@@ -267,7 +267,7 @@ export default function App() {
         </div>
       </Section>
 
-      <p className="footer">© {new Date().getFullYear()} Aleksander Laasmägi</p>
+      <p className="footer">© {new Date().getFullYear()} Aleksander Laasmägi · <a href="https://alaasmagi.dev" target="_blank" rel="noreferrer">Portfolio</a> · <a href="https://github.com/alaasmagi/design-system" target="_blank" rel="noreferrer">Source code</a></p>
 
       <Dialog open={dialog !== null} onClose={() => setDialog(null)} type={dialog === "danger" ? "danger" : "default"}
         title={dialog === "danger" ? "Delete this client?" : "Edit lesson"}
