@@ -28,10 +28,10 @@ const TYPE = [["ds-display", "Display"], ["ds-h1", "H1"], ["ds-h2", "H2"], ["ds-
 const SPACES = ["1", "2", "3", "4", "5", "6", "8", "10", "12", "16"];
 const RADII = ["xs", "sm", "md", "lg", "xl", "full"];
 const CLIENTS = [
-  { value: "food-app", label: "food-app — Food App" },
-  { value: "identity-hub", label: "identity-hub — Identity Hub" },
-  { value: "invoice-service", label: "invoice-service — Invoice Service" },
-  { value: "educode", label: "educode — EduCode" },
+  { value: "web-app", label: "web-app — Web App" },
+  { value: "auth-service", label: "auth-service — Auth Service" },
+  { value: "billing-service", label: "billing-service — Billing Service" },
+  { value: "mobile-app", label: "mobile-app — Mobile App" },
 ];
 
 export default function App() {
@@ -63,7 +63,7 @@ export default function App() {
       <div className="intro">
         <h1 className="ds-display">One system for all my apps</h1>
         <p className="ds-body-lg">
-          EduCode, Email Hub and Invoice Service share the same tokens and components. Values are generated from Figma
+          Every app shares the same tokens and components. Values are generated from Figma
           variables: a token changed in Figma reaches the code with a single command.
         </p>
         <div className="swatches" role="group" aria-label="Accent colour">
@@ -151,7 +151,7 @@ export default function App() {
             <Input label="Code" icon="pin-code" disabled placeholder="Disabled" />
           </div>
           <div className="stack">
-            <Select label="Client" options={CLIENTS} defaultValue="identity-hub" />
+            <Select label="Client" options={CLIENTS} defaultValue="auth-service" />
             <Select label="Language" options={[{ value: "et", label: "Estonian" }, { value: "en", label: "English" }]} placeholder="Select language" />
             <Textarea label="Template (Razor)" defaultValue={"<p>Hello, @Model.Name!</p>\n<p>Your code is @Model.Code.</p>"} />
           </div>
@@ -203,7 +203,7 @@ export default function App() {
             <Alert tone="info">A new version is available.</Alert>
           </div>
           <div className="stack">
-            <Toast tone="success" title="Saved" description="Client “food-app” was updated." onClose={() => undefined} />
+            <Toast tone="success" title="Saved" description="Client “web-app” was updated." onClose={() => undefined} />
             <div className="row">
               <Button variant="secondary" onClick={() => toast("success", "Saved")}>Show toast</Button>
               <Button variant="secondary" onClick={() => setDialog("default")}>Open dialog</Button>
@@ -212,9 +212,9 @@ export default function App() {
           </div>
           <Demo title="Dropdown menu">
             <DropdownMenu>
-              <MenuItem>food-app — Food App</MenuItem>
-              <MenuItem selected>identity-hub — Identity Hub</MenuItem>
-              <MenuItem>educode — EduCode</MenuItem>
+              <MenuItem>web-app — Web App</MenuItem>
+              <MenuItem selected>auth-service — Auth Service</MenuItem>
+              <MenuItem>mobile-app — Mobile App</MenuItem>
             </DropdownMenu>
           </Demo>
         </div>
@@ -230,12 +230,12 @@ export default function App() {
           <Demo title="Tag">
             <div className="row">
               {["Active", "Finished", "Upcoming"].map((f) => <Tag key={f} selected={filters.includes(f)} onClick={() => toggleFilter(f)}>{f}</Tag>)}
-              <Tag onRemove={() => undefined}>identity-hub</Tag>
+              <Tag onRemove={() => undefined}>auth-service</Tag>
             </div>
           </Demo>
           <Demo title="CodeChip and InfoRow">
             <dl className="stack" style={{ margin: 0, gap: "var(--space-2)" }}>
-              <InfoRow label="Service" value={<CodeChip>identity-hub</CodeChip>} />
+              <InfoRow label="Service" value={<CodeChip>auth-service</CodeChip>} />
               <InfoRow label="Lesson" value="Software Development Basics · 13.10 10:00" />
             </dl>
           </Demo>
@@ -267,7 +267,7 @@ export default function App() {
         </div>
       </Section>
 
-      <p className="footer">Synced with the Figma file “alaasmagi-design-system”.</p>
+      <p className="footer">© {new Date().getFullYear()} Aleksander Laasmägi</p>
 
       <Dialog open={dialog !== null} onClose={() => setDialog(null)} type={dialog === "danger" ? "danger" : "default"}
         title={dialog === "danger" ? "Delete this client?" : "Edit lesson"}
