@@ -29,6 +29,10 @@
 .ds-button:disabled { cursor: not-allowed; background: var(--color-bg-sunken); background-image: none; color: var(--color-text-disabled); }
 .ds-button--secondary:disabled { border-color: var(--color-border-subtle); }
 .ds-button--ghost:disabled { background: transparent; }
+.ds-button--loading { position: relative; cursor: progress; }
+.ds-button__content { display: contents; }
+.ds-button--loading .ds-button__content { visibility: hidden; }
+.ds-button__spinner { position: absolute; inset: 0; margin: auto; }
 
 /* ---------- Icon button ---------- */
 .ds-icon-button {

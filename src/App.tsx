@@ -130,6 +130,7 @@ export default function App() {
               <Button icon="plus">Add lesson</Button>
               <Button variant="secondary" icon="upload">Import PDF</Button>
               <Button disabled>Continue</Button>
+              <Button loading>Continue</Button>
             </div>
           </Demo>
           <Demo title="Icon button + Tooltip">

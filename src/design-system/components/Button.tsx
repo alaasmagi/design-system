@@ -9,15 +9,27 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Figma: Show icon + Icon (leading, 18px). */
   icon?: IconName;
   fullWidth?: boolean;
+  /** Figma: State=Loading. Label hidden, spinner centered, width kept; not clickable. */
+  loading?: boolean;
   children?: ReactNode;
 }
 
 /** 44px button (touch target). */
-export function Button({ variant = "primary", icon, fullWidth, className, children, type = "button", ...rest }: ButtonProps) {
+export function Button({ variant = "primary", icon, fullWidth, loading, className, children, type = "button", onClick, ...rest }: ButtonProps) {
   return (
-    <button type={type} className={cx("ds-button", `ds-button--${variant}`, fullWidth && "ds-button--full", className)} {...rest}>
-      {icon && <Icon name={icon} size={18} />}
-      {children}
+    <button
+      type={type}
+      className={cx("ds-button", `ds-button--${variant}`, fullWidth && "ds-button--full", loading && "ds-button--loading", className)}
+      aria-busy={loading || undefined}
+      aria-disabled={loading || undefined}
+      onClick={loading ? undefined : onClick}
+      {...rest}
+    >
+      <span className="ds-button__content">
+        {icon && <Icon name={icon} size={18} />}
+        {children}
+      </span>
+      {loading && <Icon name="loader" size={18} className="ds-button__spinner" />}
     </button>
   );
 }
